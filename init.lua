@@ -1,25 +1,30 @@
 minetest.register_node("nyancat:nyancat", {
 	description = "Nyan Cat",
-	tiles = {"default_nc_side.png", "default_nc_side.png", "default_nc_side.png",
-		"default_nc_side.png", "default_nc_back.png", "default_nc_front.png"},
+	tiles = {"nyancat_side.png", "nyancat_side.png", "nyancat_side.png",
+		"nyancat_side.png", "nyancat_back.png", "nyancat_front.png"},
+	paramtype = "light",
+	light_source = default.LIGHT_MAX,
 	paramtype2 = "facedir",
 	groups = {cracky = 2},
 	is_ground_content = false,
-	legacy_facedir_simple = true,
 	sounds = default.node_sound_defaults(),
 })
 
 minetest.register_node("nyancat:nyancat_rainbow", {
 	description = "Nyan Cat Rainbow",
 	tiles = {
-		"default_nc_rb.png^[transformR90", "default_nc_rb.png^[transformR90",
-		"default_nc_rb.png", "default_nc_rb.png"
+		"nyancat_rainbow.png^[transformR90",
+		"nyancat_rainbow.png^[transformR90",
+		"nyancat_rainbow.png"
 	},
+	paramtype = "light",
+	light_source = default.LIGHT_MAX,
 	paramtype2 = "facedir",
 	groups = {cracky = 2},
 	is_ground_content = false,
 	sounds = default.node_sound_defaults(),
 })
+
 
 minetest.register_craft({
 	type = "fuel",
@@ -33,6 +38,8 @@ minetest.register_craft({
 	burntime = 1,
 })
 
+
+-- Mapgen
 nyancat = {}
 
 function nyancat.place(pos, facedir, length)
@@ -75,10 +82,8 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	nyancat.generate(minp, maxp, seed)
 end)
 
--- Legacy
+-- Legacy compat
 minetest.register_alias("default:nyancat", "nyancat:nyancat")
 minetest.register_alias("default:nyancat_rainbow", "nyancat:nyancat_rainbow")
-minetest.register_alias("nyancat", "nyancat:nyancat")
-minetest.register_alias("nyancat_rainbow", "nyancat:nyancat_rainbow")
 default.make_nyancat = nyancat.place
 default.generate_nyancats = nyancat.generate
