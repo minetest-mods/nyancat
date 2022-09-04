@@ -1,13 +1,21 @@
+
+local node_sound
+if minetest.global_exists("default") then
+	node_sound = default.node_sound_defaults()
+elseif minetest.global_exists("sounds") then
+	node_sound = sounds.node()
+end
+
 minetest.register_node("nyancat:nyancat", {
 	description = "Nyan Cat",
 	tiles = {"nyancat_side.png", "nyancat_side.png", "nyancat_side.png",
 		"nyancat_side.png", "nyancat_back.png", "nyancat_front.png"},
 	paramtype = "light",
-	light_source = default.LIGHT_MAX,
+	light_source = minetest.LIGHT_MAX,
 	paramtype2 = "facedir",
 	groups = {cracky = 2},
 	is_ground_content = false,
-	sounds = default.node_sound_defaults(),
+	sounds = node_sound,
 })
 
 minetest.register_node("nyancat:nyancat_rainbow", {
@@ -18,11 +26,11 @@ minetest.register_node("nyancat:nyancat_rainbow", {
 		"nyancat_rainbow.png"
 	},
 	paramtype = "light",
-	light_source = default.LIGHT_MAX,
+	light_source = minetest.LIGHT_MAX,
 	paramtype2 = "facedir",
 	groups = {cracky = 2},
 	is_ground_content = false,
-	sounds = default.node_sound_defaults(),
+	sounds = node_sound,
 })
 
 
@@ -83,7 +91,9 @@ minetest.register_on_generated(function(minp, maxp, seed)
 end)
 
 -- Legacy compat
-minetest.register_alias("default:nyancat", "nyancat:nyancat")
-minetest.register_alias("default:nyancat_rainbow", "nyancat:nyancat_rainbow")
-default.make_nyancat = nyancat.place
-default.generate_nyancats = nyancat.generate
+if minetest.global_exists("default") then
+	minetest.register_alias("default:nyancat", "nyancat:nyancat")
+	minetest.register_alias("default:nyancat_rainbow", "nyancat:nyancat_rainbow")
+	default.make_nyancat = nyancat.place
+	default.generate_nyancats = nyancat.generate
+end
